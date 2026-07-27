@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://leads-management-system-1.onrender.com/api",
 });
 
 // Automatically send JWT token with every request
