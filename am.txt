@@ -1,0 +1,3 @@
+mongodb+srv://pbaeiou0_db_user:yd94xSpictwgsowf@cluster0.xbmi4os.mongodb.net/lead-management?appName=Cluster0
+
+yd94xSpictwgsowf
