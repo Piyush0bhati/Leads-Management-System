@@ -47,16 +47,16 @@ function Register() {
       </div>
 
       {/* Right */}
-      <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100">
+      <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100 dark:bg-slate-900">
         <form
           onSubmit={handleRegister}
-          className="bg-white shadow-2xl rounded-2xl p-10 w-[420px]"
+          className="bg-white dark:bg-slate-800 shadow-2xl rounded-2xl p-10 w-[420px]"
         >
           <h2 className="text-4xl font-bold text-center mb-2">
             Create Account
           </h2>
 
-          <p className="text-gray-500 text-center mb-8">
+          <p className="text-gray-500 dark:text-gray-300 text-center mb-8">
             Register to get started
           </p>
 
@@ -66,7 +66,7 @@ function Register() {
             placeholder="Full Name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full border rounded-lg p-3 mb-4 focus:ring-2 focus:ring-green-500 outline-none"
+            className="border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 dark:bg-slate-700 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 p-3 rounded"
             required
           />
 

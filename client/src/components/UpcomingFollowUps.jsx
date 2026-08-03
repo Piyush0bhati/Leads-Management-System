@@ -19,13 +19,13 @@ function UpcomingFollowUps() {
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 mt-8">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mt-8">
       <h2 className="text-2xl font-bold mb-4">
         📅 Upcoming Follow-ups
       </h2>
 
       {leads.length === 0 ? (
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-300">
           No upcoming follow-ups.
         </p>
       ) : (
@@ -33,7 +33,7 @@ function UpcomingFollowUps() {
           {leads.map((lead) => (
             <div
               key={lead._id}
-              className="border rounded-lg p-4 hover:bg-gray-50"
+              className="border rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-slate-700"
             >
               <h3 className="font-semibold text-lg">
                 {lead.name}

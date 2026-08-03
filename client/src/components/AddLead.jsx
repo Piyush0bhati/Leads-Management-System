@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaBuilding,
+  FaClipboardList,
+  FaCalendarAlt,
+  FaStickyNote,
+} from "react-icons/fa";
 
 function AddLead({
   onLeadAdded,
@@ -13,9 +22,10 @@ function AddLead({
     phone: "",
     company: "",
     status: "New",
+    notes: "",
+    followUpDate: "",
   });
 
-  // Fill the form when Edit button is clicked
   useEffect(() => {
     if (selectedLead) {
       setFormData({
@@ -26,13 +36,12 @@ function AddLead({
         status: selectedLead.status,
         notes: selectedLead.notes || "",
         followUpDate: selectedLead.followUpDate
-        ? selectedLead.followUpDate.substring(0, 10)
-        : "",
+          ? selectedLead.followUpDate.substring(0, 10)
+          : "",
       });
     }
   }, [selectedLead]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -40,160 +49,180 @@ function AddLead({
     });
   };
 
-  // Handle Add / Update
+  const clearForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      status: "New",
+      notes: "",
+      followUpDate: "",
+    });
+
+    setSelectedLead(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (selectedLead) {
-        // Update existing lead
         await api.put(`/leads/${selectedLead._id}`, formData);
-
         toast.success("Lead Updated Successfully!");
       } else {
-        // Create new lead
         await api.post("/leads", formData);
-
         toast.success("Lead Added Successfully!");
       }
 
-      // Clear form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        status: "New",
-        notes:"",
-        followUpDate:"",
-      });
-
-      // Exit edit mode
-      setSelectedLead(null);
-
-      // Refresh lead list
+      clearForm();
       onLeadAdded();
-
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
+  const inputClass =
+    "w-full border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none";
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-lg shadow mb-6"
-    >
-      <h2 className="text-2xl font-bold mb-4">
-        {selectedLead ? "Edit Lead" : "Add New Lead"}
+    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 mb-8">
+      <h2 className="text-3xl font-bold text-gray-800  dark:text-white mb-2">
+        {selectedLead ? "✏ Edit Lead" : "➕ Add New Lead"}
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <p className="text-gray-500 dark:text-gray-300 mb-8">
+        Fill in the customer information below.
+      </p>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaUser /> Name
+            </label>
+            <input
+              className={inputClass}
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaEnvelope /> Email
+            </label>
+            <input
+              type="email"
+              className={inputClass}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="text"
-          name="company"
-          placeholder="Company"
-          value={formData.company}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaPhone /> Phone
+            </label>
+            <input
+              className={inputClass}
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="New">New</option>
-          <option value="Contacted">Contacted</option>
-          <option value="Qualified">Qualified</option>
-          <option value="Lost">Lost</option>
-          <option value="Converted">Converted</option>
-        </select>
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaBuilding /> Company
+            </label>
+            <input
+              className={inputClass}
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      </div>
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaClipboardList /> Status
+            </label>
 
-      <div className="mt-4 flex gap-3">
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option>New</option>
+              <option>Contacted</option>
+              <option>Qualified</option>
+              <option>Lost</option>
+              <option>Converted</option>
+            </select>
+          </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-        >
-          {selectedLead ? "Update Lead" : "Save Lead"}
-        </button>
+          <div>
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaCalendarAlt /> Follow-up Date
+            </label>
 
-        {selectedLead && (
+            <input
+              type="date"
+              name="followUpDate"
+              value={formData.followUpDate}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="font-medium flex items-center gap-2 mb-2">
+              <FaStickyNote /> Notes
+            </label>
+
+            <textarea
+              rows="4"
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              className={`${inputClass} resize-none`}
+              placeholder="Write lead notes..."
+            />
+          </div>
+
+        </div>
+
+        <div className="flex gap-4 mt-8">
+
           <button
-            type="button"
-            onClick={() => {
-              setSelectedLead(null);
-              setFormData({
-                name: "",
-                email: "",
-                phone: "",
-                company: "",
-                status: "New",
-                notes:"",
-                followUpDate:"",
-              });
-            }}
-            className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600"
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl shadow-lg transition"
           >
-            Cancel
+            {selectedLead ? "Update Lead" : "Save Lead"}
           </button>
-        )}
 
-        <input
-          type="date"
-          name="followUpDate"
-          value={formData.followUpDate}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+          {selectedLead && (
+            <button
+              type="button"
+              onClick={clearForm}
+              className="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl transition"
+            >
+              Cancel
+            </button>
+          )}
 
-        <textarea
-          name="notes"
-          rows="4"
-          placeholder="Lead Notes..."
-          value={formData.notes}
-          onChange={handleChange}
-          className="border p-2 rounded col-span-2"
-        />
-
-      </div>
-    </form>
+        </div>
+      </form>
+    </div>
   );
 }
 

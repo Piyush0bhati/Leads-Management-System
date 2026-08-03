@@ -44,7 +44,7 @@ function StatusPieChart({ stats }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow mt-8">
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow mt-8">
       <h2 className="text-2xl font-bold mb-6">
         Lead Status Distribution
       </h2>

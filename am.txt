@@ -3,3 +3,5 @@ mongodb+srv://pbaeiou0_db_user:yd94xSpictwgsowf@cluster0.xbmi4os.mongodb.net/lea
 yd94xSpictwgsowf  mongo pass
 
 LeadManagementCRM2026@Piyush  jwt secreat key
+
+"flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-xl font-semibold shadow hover:scale-105 transition"

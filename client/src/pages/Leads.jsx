@@ -100,7 +100,7 @@ function Leads() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-50">
       <Navbar />
 
       <div className="flex">
@@ -114,19 +114,31 @@ function Leads() {
             setSelectedLead={setSelectedLead}
           />
 
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">
-              Leads
-            </h1>
+          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-lg p-8 mb-8">
 
-            <ExportButton leads={leads} />
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+
+              <div>
+                <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+                  👥 Lead Management
+                </h1>
+
+                <p className="text-gray-500 dark:text-gray-300 mt-2">
+                  Manage customer leads, track progress and boost conversions.
+                </p>
+              </div>
+
+              <ExportButton leads={leads} />
+
+            </div>
+
           </div>
 
-          <div className="flex gap-3 mb-4">
+          <div className="flex flex-wrap gap-4 mb-8">
 
             <button
               onClick={() => fileInputRef.current.click()}
-              className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700"
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-lg transition"
             >
               📥 Import Excel
             </button>
@@ -143,45 +155,127 @@ function Leads() {
 
           {/* Search + Filter */}
 
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-8">
 
-            <input
-              type="text"
-              placeholder="Search by name, email or company..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              className="border p-3 rounded w-full md:w-80"
-            />
+            <div className="relative w-full md:w-96">
 
-            <select
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
-                setPage(1);
-              }}
-              className="border p-3 rounded"
-            >
-              <option value="">All Status</option>
-              <option value="New">New</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Qualified">Qualified</option>
-              <option value="Lost">Lost</option>
-              <option value="Converted">Converted</option>
-            </select>
+              <input
+                type="text"
+                placeholder="🔍 Search by name, company or email..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                className="border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 p-3 rounded"
+              />
 
+
+
+              <select
+                value={status}
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                  setPage(1);
+                }}
+                className="border border-gray-200 dark:border-slate-700 rounded-xl px-5 py-3"
+              >
+                <option value="">All Status</option>
+                <option>New</option>
+                <option>Contacted</option>
+                <option>Qualified</option>
+                <option>Lost</option>
+                <option>Converted</option>
+              </select>
+
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+
+              <div className="bg-blue-50 p-4 rounded-xl">
+                <p className="text-gray-500 dark:text-gray-300">Showing</p>
+                <h2 className="text-2xl font-bold">
+                  {leads.length}
+                </h2>
+              </div>
+
+              <div className="bg-green-50 p-4 rounded-xl">
+                <p className="text-gray-500 dark:text-gray-300">Current Page</p>
+                <h2 className="text-2xl font-bold">
+                  {page}
+                </h2>
+              </div>
+
+              <div className="bg-purple-50 p-4 rounded-xl">
+                <p className="text-gray-500 dark:text-gray-300">Pages</p>
+                <h2 className="text-2xl font-bold">
+                  {totalPages}
+                </h2>
+              </div>
+
+              <div className="bg-orange-50 p-4 rounded-xl">
+                <p className="text-gray-500 dark:text-gray-300">Status</p>
+                <h2 className="text-lg font-bold">
+                  {status || "All"}
+                </h2>
+              </div>
+
+            </div>
+
+          </div>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-5 mb-6 flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold">Lead Directory</h2>
+              <p className="text-gray-500 dark:text-gray-300">
+                Manage all your customer leads in one place.
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-sm text-gray-500 dark:text-gray-300">Total Leads</p>
+              <p className="text-3xl font-bold text-blue-600">
+                {leads.length}
+              </p>
+            </div>
           </div>
 
           {/* Lead Table */}
 
-          <LeadTable
-            leads={leads}
-            onEdit={setSelectedLead}
-            onDelete={deleteLead}
-            onView={handleViewLead}
-          />
+          {leads.length === 0 ? (
+            <div className="flex flex-col items-center py-20">
+
+              <div className="text-8xl">
+                📂
+              </div>
+
+              <h2 className="text-3xl font-bold mt-5">
+                No Leads Found
+              </h2>
+
+              <p className="text-gray-500 dark:text-gray-300 mt-3">
+                Try changing filters or create a new lead.
+              </p>
+
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setStatus("");
+                }}
+                className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition"
+              >
+                Clear Filters
+              </button>
+            </div>
+
+          ) : (
+
+            <LeadTable
+              leads={leads}
+              onEdit={setSelectedLead}
+              onDelete={deleteLead}
+              onView={handleViewLead}
+            />
+          )}
 
           {/* Pagination */}
 
@@ -192,7 +286,7 @@ function Leads() {
               disabled={page === 1}
               className="bg-gray-600 text-white px-4 py-2 rounded disabled:bg-gray-300"
             >
-              Previous
+              ⬅ Previous
             </button>
 
             <span className="font-semibold">
@@ -206,7 +300,7 @@ function Leads() {
               disabled={page === totalPages}
               className="bg-blue-600 text-white px-4 py-2 rounded disabled:bg-gray-300"
             >
-              Next
+              Next ➜
             </button>
 
           </div>

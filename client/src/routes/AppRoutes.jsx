@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import Leads from "../pages/Leads";
 import NotFound from "../pages/NotFound";
 import PrivateRoute from "./PrivateRoute";
+import Settings from "../pages/Settings";
 
 function AppRoutes() {
   return (
@@ -14,6 +15,8 @@ function AppRoutes() {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="*" element={<NotFound />} />
 
       {/* Protected Routes */}
       <Route

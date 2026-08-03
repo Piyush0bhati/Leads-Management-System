@@ -18,7 +18,7 @@ function RecentLeads() {
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 mt-8">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mt-8">
       <h2 className="text-2xl font-bold mb-5">
         Recent Leads
       </h2>
