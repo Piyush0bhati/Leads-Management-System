@@ -366,7 +366,7 @@ function Dashboard() {
               </a>
 
               <a
-                href="https://piyush0bhati.github.io/profile/"
+                href="https://my-portfolio-xi-fawn-57.vercel.app/"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-blue-600"
