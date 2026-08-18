@@ -55,17 +55,39 @@ function Leads() {
 
   // Confirm Delete
   const confirmDelete = async () => {
+    if (!deleteId) {
+      toast.error("Invalid lead ID");
+      return;
+    }
+
     try {
+      console.log("Deleting lead:", deleteId);
+
       await api.delete(`/leads/${deleteId}`);
 
-      toast.success("Lead Deleted Successfully!");
+      toast.success("Lead deleted successfully!");
 
       setShowDeleteModal(false);
       setDeleteId(null);
 
-      fetchLeads();
+      // Update UI immediately
+      setLeads((prevLeads) =>
+        prevLeads.filter((lead) => lead._id !== deleteId)
+      );
+
+      // If current page becomes empty, go back one page
+      if (leads.length === 1 && page > 1) {
+        setPage((prev) => prev - 1);
+      } else {
+        await fetchLeads();
+      }
+
     } catch (error) {
-      toast.error(error.response?.data?.message || "Delete Failed");
+      console.error("Delete error:", error);
+
+      toast.error(
+        error.response?.data?.message || "Delete failed"
+      );
     }
   };
 
